@@ -21,6 +21,7 @@ var comment = require('./routes/comment');
 var uploads = require('./routes/uploads');
 var cate = require('./routes/cate');
 var log = require('./routes/log');
+var match = require('./routes/match');
 
 
 
@@ -48,6 +49,7 @@ app.use('/comment', comment);
 app.use('/uploads', uploads);
 app.use('/cate', cate);
 app.use('/log', log);
+app.use('/match', match);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

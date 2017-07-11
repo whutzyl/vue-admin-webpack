@@ -5,9 +5,9 @@ async = require("async");
 
 exports.create = function(req, res, next) {
     const match = new Match(req.body);
-    console.log(log)
-    if (log.cateId !== 'null') {
-        log.save()
+    console.log(match)
+    if (match.cateId !== 'null') {
+        match.save()
             .then(data => {
                 res.json(data)
             })
@@ -18,7 +18,7 @@ exports.create = function(req, res, next) {
 };
 
 exports.update = function(req, res, next) {
-    const log = new Log(req.body);
+    const match = new Match(req.body);
     const id = req.params.id;
 
     Match.findByIdAndUpdate(id, { $set: req.body }, { new: false })
@@ -49,13 +49,13 @@ exports.list = function(req, res, next) {
     }
 
     Match.paginate(queryCondition, { page: page, limit: limit }, function(err, result) {
-        async.map(result.docs, function(log, done) {
-            Comment.count({ logId: log._id }, function(err, count) {
+        async.map(result.docs, function(match, done) {
+            Comment.count({ matchId: match._id }, function(err, count) {
                 if (err)
                     done(err);
                 else {
-                    log.commentCount = count;
-                    done(null, log);
+                    match.commentCount = count;
+                    done(null, match);
                 }
             });
         }, function(err) {
@@ -71,7 +71,7 @@ exports.list = function(req, res, next) {
 
 exports.remove = function(req, res, next) {
     var id = req.params.id;
-    Log.findByIdAndRemove(id, function(err, doc) {
+    Match.findByIdAndRemove(id, function(err, doc) {
         res.json({ "message": "delete ok" });
     })
 
@@ -80,7 +80,7 @@ exports.remove = function(req, res, next) {
 exports.removes = function(req, res, next) {
     var ids = req.body.ids;
     if (ids.length > 0) {
-        Log.remove({ _id: { $in: ids } })
+        Match.remove({ _id: { $in: ids } })
             .then(deleted => {
                 res.json({ "message": "delete ok" });
             })
